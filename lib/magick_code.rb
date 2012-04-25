@@ -1,4 +1,5 @@
 require "RMagick"
+require 'fileutils'
 include Magick
 
 class MagickClass
@@ -44,7 +45,8 @@ class MagickClass
         Dir.chdir(parent_dir+"_resized")
         @@fol.each do |folder|
             if !(File.directory?(folder))
-                %x(mkdir -p #{folder})
+                FileUtils.mkdir_p(folder)
+#                %x(mkdir -p #{folder})
             end
         end
         Dir.chdir(parent_dir)
