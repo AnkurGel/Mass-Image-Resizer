@@ -18,13 +18,17 @@ class MagickClass
     def extract_files
         Dir.chdir(@parent_dir)
         @@image_ext.each do |file_extension|
-            @filesdetected<<Dir['**/*'+file_extension]
+            @filesdetected<<Dir['*'+file_extension]
         end
         @filesdetected.flatten!
 
     end
 
     def scale_to(x_percent)
-        ImageList.new(@file_location).scale(x_percent.to_f).write(File.basename(@file_location, File.extname(@file_location))+"_resized"+File.extname(@file_location))
+        if (dir_location==nil)
+            ImageList.new(@filedetected).scale(x_percent.to_f).write(File.basename(@filedetected, File.extname(@filedetected))+"_resized"+File.extname(@filedetected))
+        else
+            ImageList.new(@file_location).scale(x_percent.to_f).write(File.basename(@file_location, File.extname(@file_location))+"_resized"+File.extname(@file_location))
+        end
     end
 end
