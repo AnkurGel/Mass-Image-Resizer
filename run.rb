@@ -10,3 +10,7 @@ images.each do |file_name|
     STDERR.puts "Now processing #{file_name}"
     MagickClass.new(file_name).scale_to(scale)
 end
+puts "DONE!"
+puts "Created by: Ankur Goel"
+puts "ankurgel@gmail.com"
+puts "http://twitter.com/AnkurGel"
