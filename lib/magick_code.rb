@@ -27,8 +27,15 @@ class MagickClass
     def scale_to(x_percent)
         if (dir_location==nil)
             ImageList.new(@filedetected).scale(x_percent.to_f).write(File.basename(@filedetected, File.extname(@filedetected))+"_resized"+File.extname(@filedetected))
+            output="Output File: #{filesdetected}_resized"
         else
-            ImageList.new(@file_location).scale(x_percent.to_f).write(File.basename(@file_location, File.extname(@file_location))+"_resized"+File.extname(@file_location))
+            Dir.mkdir(parent_dir+"_resized")
+            @filesdetected.each do |img|
+                puts "Processing #{img}.. Please wait.. "
+                ImageList.new(img).scale(x_percent.to_f).write(File.expand_path(img, parent_dir+"_resized"))
+            end
+            output="Image resized to #{x_percent} percent and stacked in #{parent_dir}_resized"
         end
+        puts output
     end
 end
