@@ -9,7 +9,7 @@ class MagickClass
 
     def initialize(string)
         if File.extname(string).size>1
-            @filedetected=File.expand_path(string)
+            @filesdetected=File.expand_path(string)
         else
             @parent_dir=File.expand_path(string)
             @filesdetected=[]
@@ -28,8 +28,11 @@ class MagickClass
 
     def scale_to(x_percent)
         if (dir_location==nil)
-            ImageList.new(@filedetected).scale(x_percent.to_f/100).write(File.basename(@filedetected, File.extname(@filedetected))+"_resized"+File.extname(@filedetected))
-            output="Output File: #{filesdetected}_resized"
+            puts "Working wih #{@filesdetected}"
+            raise TypeError,'Not supported image file' unless @@image_ext.include?(File.extname(@filesdetected))
+            Dir.chdir(File.split(filesdetected)[0])
+            ImageList.new(@filesdetected).scale(x_percent.to_f/100).write(File.basename(@filesdetected, File.extname(@filesdetected))+"_resized"+File.extname(@filesdetected))
+            output="Output File: #{File.basename(filesdetected,File.extname(filesdetected) )}_resized#{File.extname(filesdetected)} in #{File.split(filesdetected)[0]}"
         else
             Dir.mkdir(parent_dir+"_resized")
             createdirectory_framework
