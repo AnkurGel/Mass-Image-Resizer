@@ -36,10 +36,18 @@ class MagickClass
         else
             Dir.mkdir(parent_dir+"_resized")
             createdirectory_framework
-            @filesdetected.each do |img|
-                puts "Processing #{img}.. Please wait.. "
-                ImageList.new(img).scale(x_percent.to_f/100).write(File.expand_path(img, parent_dir+"_resized"))
+            arr=[]
+            filesdetected.each_slice(5){|x| arr<<x}
+            threads=[];
+            arr.each do |file_segment|
+                threads<<Thread.new(file_segment) do |slice|
+                    slice.each do |img|
+                        puts "Processing #{img}.. Please wait.. "
+                        ImageList.new(img).scale(x_percent.to_f/100).write(File.expand_path(img, parent_dir+"_resized"))
+                    end
+                end
             end
+            threads.each{|t| t.join}
             output="Image resized to #{x_percent} percent and lovingly stacked in #{parent_dir}_resized! Thank me NAO!"
         end
         puts output
@@ -49,7 +57,7 @@ class MagickClass
         @@fol.each do |folder|
             if !(File.directory?(folder))
                 FileUtils.mkdir_p(folder)
-#                %x(mkdir -p #{folder})
+                #                %x(mkdir -p #{folder})
             end
         end
         Dir.chdir(parent_dir)
