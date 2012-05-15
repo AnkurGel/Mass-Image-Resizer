@@ -1,6 +1,6 @@
 require 'RMagick'
 include Magick
-img=ImageList.new("zombie_resized.jpeg")
+img=ImageList.new("img.jpg")
 pixels=[]
 pixels=img.export_pixels;pixelss=[]
 pixels.each_slice(3){|x| pixelss<<x}
