@@ -44,11 +44,12 @@ class MagickClass
                     slice.each do |img|
                         puts "Processing #{img}.. Please wait.. "
                         ImageList.new(img).scale(x_percent.to_f/100).write(File.expand_path(img, parent_dir+"_resized"))
+                        puts "Done"
                     end
                 end
             end
             threads.each{|t| t.join}
-            output="Image resized to #{x_percent} percent and lovingly stacked in #{parent_dir}_resized! Thank me NAO!"
+            output="Image resized to #{x_percent} percent and lovingly stacked in #{parent_dir}_resized!"
         end
         puts output
     end
